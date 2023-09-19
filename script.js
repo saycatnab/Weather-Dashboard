@@ -11,6 +11,7 @@ let searchHistory = []
 // ^ the search history is empty at first
 let searchHistoryContainer = $("#history")
 // ^ get the div called history in html
+let todayContainer = $("#today");
 
 function renderSearchHistory(){
     searchHistoryContainer.html("");
@@ -52,7 +53,7 @@ function renderCurrentWeather(city, weatherData){
     let cardBody = $("<div>");
     let weatherIcon = $("<img>")
 
-    let heading = ("<h2>");
+    let heading = $("<h2>");
     let tempEl = $("<p>");
     let windEl = $("<p>");
     let humdity = $("<p>");
@@ -70,6 +71,17 @@ function renderCurrentWeather(city, weatherData){
     humdity.attr("class", "card-text");
 
     heading.text(`${city} ${date}`);
+    weatherIcon.attr("src", imgURL);
+    weatherIcon.attr("alt", imgDescription);
+
+    heading.append(weatherIcon);
+    tempEl.text(`Temp ${temp} C`);
+    windEl.text(`Wind ${windKph} KPH`);
+    humdity.text(`Humidity ${humidity} %`);
+    cardBody.append(heading, tempEl, windEl, humdity);
+
+    todayContainer.html("")
+    todayContainer.append(card)
 }
 
 function fetchWeather(location){
@@ -145,5 +157,11 @@ function initializeHistory(){
     }
     renderSearchHistory()
 }
+
+function clickSearchHistory(event){
+    
+}
+
+initializeHistory()
 searchForm.on("submit", submitSearchForm);
 // dont add in the () when doing an eventlistener, messes up for some reason.
