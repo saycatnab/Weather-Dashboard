@@ -41,6 +41,18 @@ function appendSearchHistory(search){
     
 }
 
+function fetchWeather(location){
+    // console.log(location)
+    // always console log to see if it works. it does, which it shows an array of locations, data e.g. lat, lon, name
+    let latitude = location.lat;
+    let longitude = location.lon;
+    let city = location.name;
+
+    let queryWeatherURL =  `${weatherAPIURL}/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${weatherAPIKEY}`
+    
+    console.log(queryWeatherURL)
+}
+
 function fetchCoord(search){
     let queryURL = `${weatherAPIURL}/geo/1.0/direct?q=${search}&limit=5&appid=${weatherAPIKEY}`;
     // put the whole link incl. your api key in a variable
@@ -54,6 +66,9 @@ function fetchCoord(search){
                 alert("Location not found")
             } else{
                 appendSearchHistory(search);
+                // ^ this allows the search data(user input location) go into this function, to be used
+                fetchWeather(response[0])
+                // ^ this will fetch the response(data for whatever location)to this function.[0] means the first array of the stated location(since many variations)
             }
         })
 }
@@ -69,6 +84,8 @@ function submitSearchForm(event){
 
     fetchCoord(search);
     // bringing the user city input into another function. Function above this one.
+    searchInput.val("");
+    // makes the input empty after submitting location
 };
 
 function initializeHistory(){
