@@ -84,6 +84,10 @@ function renderCurrentWeather(city, weatherData){
     todayContainer.append(card)
 }
 
+function renderForecast(weatherData){
+    
+}
+
 function fetchWeather(location){
     // console.log(location)
     // always console log to see if it works. it does, which it shows an array of locations, data e.g. lat, lon, name
@@ -159,9 +163,18 @@ function initializeHistory(){
 }
 
 function clickSearchHistory(event){
+    if(!$(event.target).hasClass("btn-history")){
+        return
+    }
+    let search = $(event.target).attr("data-search")
     
+    fetchCoord(search);
+    searchInput.val("")
+    // alert(search);
+
 }
 
 initializeHistory()
 searchForm.on("submit", submitSearchForm);
 // dont add in the () when doing an eventlistener, messes up for some reason.
+searchHistoryContainer.on("click", clickSearchHistory)
