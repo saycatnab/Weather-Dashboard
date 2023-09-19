@@ -41,6 +41,37 @@ function appendSearchHistory(search){
     
 }
 
+function renderCurrentWeather(city, weatherData){
+    let date = dayjs().format("DD MMM YYYY");
+    let temp = weatherData.main.temp;
+    let windKph = weatherData.wind.speed
+    let humidity = weatherData.main.humidity;
+    let imgURL = `https://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`
+    let imgDescription = weatherData.weather[0]
+    let card = $("<div>");
+    let cardBody = $("<div>");
+    let weatherIcon = $("<img>")
+
+    let heading = ("<h2>");
+    let tempEl = $("<p>");
+    let windEl = $("<p>");
+    let humdity = $("<p>");
+
+    card.attr("class", "card");
+
+    cardBody.attr("class", "card-body");
+
+    card.append(cardBody)
+
+
+    heading.attr("class", "h3 card-title" );
+    tempEl.attr("class", "card-text");
+    windEl.attr("class", "card-text");
+    humdity.attr("class", "card-text");
+
+    heading.text(`${city} ${date}`);
+}
+
 function fetchWeather(location){
     // console.log(location)
     // always console log to see if it works. it does, which it shows an array of locations, data e.g. lat, lon, name
@@ -50,7 +81,24 @@ function fetchWeather(location){
 
     let queryWeatherURL =  `${weatherAPIURL}/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${weatherAPIKEY}`
     
-    console.log(queryWeatherURL)
+    console.log(queryWeatherURL);
+
+    $.ajax({
+        url: queryWeatherURL,
+        method: "GET"
+    }).then(function(response){
+        console.log(response)
+        renderCurrentWeather(city, response.list[0]);
+        // renderForcast(data.list);
+    })
+
+    // fetch(queryURL, {method: "GET"})
+    //     .then(function(data){
+    //         return data.json()
+    //     }).then(function(response){
+    //         renderCurrentWeather(city, response.list[0]);
+    //         renderForcast(data.list);
+    //     })
 }
 
 function fetchCoord(search){
