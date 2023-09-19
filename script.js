@@ -71,5 +71,14 @@ function submitSearchForm(event){
     // bringing the user city input into another function. Function above this one.
 };
 
+function initializeHistory(){
+    let storedHistory = localStorage.getItem("search-history");
+
+    if(storedHistory){
+        searchHistory = JSON.parse(storedHistory);
+        
+    }
+    renderSearchHistory()
+}
 searchForm.on("submit", submitSearchForm);
 // dont add in the () when doing an eventlistener, messes up for some reason.
